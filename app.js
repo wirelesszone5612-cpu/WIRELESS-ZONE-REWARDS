@@ -1,8 +1,8 @@
 
 const REWARDS = [
-  { points: 50, value: 5 },
-  { points: 100, value: 15 },
-  { points: 200, value: 35 }
+  { points: 50, value: 3 },
+  { points: 100, value: 8 },
+  { points: 200, value: 20 }
 ];
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);

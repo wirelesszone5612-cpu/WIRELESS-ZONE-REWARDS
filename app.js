@@ -15,11 +15,63 @@ const esc = (s="") => String(s).replace(/[&<>"']/g, m => ({
 }[m]));
 
 async function init(){
+  const customerId = new URLSearchParams(window.location.search).get("customer");
+
+  if(customerId){
+    await renderCustomerCard(customerId);
+    return;
+  }
+
   const { data: { session } } = await sb.auth.getSession();
   renderAuth(session);
   sb.auth.onAuthStateChange((_event, nextSession) => renderAuth(nextSession));
-}
+}  
+async function renderCustomerCard(customerId){
+  $("loginCard").hidden = true;
+  $("app").hidden = false;
+  $("authArea").innerHTML = "";
 
+  Array.from($("app").children).forEach(el => {
+    el.hidden = el.id !== "customerCard";
+  });
+
+  $("customerCard").hidden = false;
+
+  const { data: customer, error } = await sb
+    .from("customers")
+    .select("id,name,points")
+    .eq("id", customerId)
+    .single();
+
+  if(error || !customer){
+    $("customerCard").innerHTML = `
+      <h2>Wireless Zone Rewards</h2>
+      <p class="muted">Customer card not found.</p>
+    `;
+    return;
+  }
+
+  $("customerCardName").textContent = customer.name || "Customer";
+  $("customerCardPoints").textContent = customer.points || 0;
+  $("customerCardMemberId").textContent = `Member ID: ${customer.id}`;
+
+  const reward = [...REWARDS]
+    .reverse()
+    .find(r => (customer.points || 0) >= r.points);
+
+  $("customerCardReward").innerHTML = reward
+    ? `<p><strong>$${reward.value} Reward Available</strong></p>`
+    : `<p class="muted">Keep earning points toward your next reward.</p>`;
+
+  QRCode.toCanvas(
+    $("customerCardQr"),
+    customer.id,
+    { width: 180, margin: 1 },
+    err => {
+      if(err) console.error(err);
+    }
+  );
+}
 async function renderAuth(session){
   $("loginCard").hidden = !!session;
   $("app").hidden = !session;

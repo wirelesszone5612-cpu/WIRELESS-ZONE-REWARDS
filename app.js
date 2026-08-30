@@ -37,12 +37,9 @@ async function renderCustomerCard(customerId){
 
   $("customerCard").hidden = false;
 
-  const { data: customer, error } = await sb
-    .from("customers")
-    .select("id,name,points")
-    .eq("id", customerId)
-    .single();
-
+ const { data: customer, error } = await sb
+  .rpc("get_customer_card", { customer_id: customerId })
+  .single();
   if(error || !customer){
     $("customerCard").innerHTML = `
       <h2>Wireless Zone Rewards</h2>

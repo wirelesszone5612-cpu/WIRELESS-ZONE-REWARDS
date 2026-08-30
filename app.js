@@ -135,7 +135,9 @@ async function renderDetail(){
     $("claimBirthday").disabled = false;
   }
 
-  QRCode.toCanvas($("qrCanvas"), c.id, { width:220, margin:1 }, err => {
+  const customerUrl = `${window.location.origin}${window.location.pathname}?customer=${c.id}`;
+
+QRCode.toCanvas($("qrCanvas"), customerUrl, { width:220, margin:1 }, err => {
     if(err) console.error(err);
   });
 

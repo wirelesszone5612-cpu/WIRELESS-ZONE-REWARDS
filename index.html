@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Wireless Zone Rewards</title>
+  <meta name="theme-color" content="#ff7a00">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Wireless Zone Rewards</h1>
+    <p>Every $10 spent = 1 point</p>
+  </div>
+  <div id="authArea"></div>
+</header>
+
+<main>
+  <section id="loginCard" class="card narrow">
+    <h2>Staff Login</h2>
+    <label>Email
+      <input id="email" type="email" autocomplete="username" placeholder="staff@example.com">
+    </label>
+    <label>Password
+      <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+    </label>
+    <button id="loginBtn">Login</button>
+    <p id="loginMsg" class="muted"></p>
+  </section>
+
+  <div id="app" hidden>
+    <section class="stats">
+      <div class="stat"><strong id="customerCount">0</strong><span>Customers</span></div>
+      <div class="stat"><strong id="birthdayCount">0</strong><span>Upcoming Birthdays</span></div>
+      <div class="stat"><strong>1 pt</strong><span>per $10 spent</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Add Customer</h2>
+      <div class="grid">
+        <label>Full Name<input id="name" placeholder="Customer name"></label>
+        <label>Phone<input id="phone" placeholder="615-555-1234"></label>
+        <label>Birthday<input id="birthday" type="date"></label>
+      </div>
+      <button id="addCustomer">Create Customer</button>
+    </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <div>
+          <h2>Customers</h2>
+          <p class="muted">Search by name or phone.</p>
+        </div>
+        <input id="search" placeholder="Search customer">
+      </div>
+      <div id="customerList"></div>
+    </section>
+
+    <section class="card" id="detailCard" hidden>
+      <div class="sectionHead">
+        <div>
+          <h2 id="detailName"></h2>
+          <p id="detailPhone" class="muted"></p>
+        </div>
+        <div class="pointsBox"><span id="detailPoints">0</span><small>points</small></div>
+      </div>
+
+      <div class="detailGrid">
+        <div>
+          <h3>Add Purchase</h3>
+          <div class="row">
+            <input id="purchaseAmount" type="number" min="0" step="0.01" placeholder="$ amount">
+            <button id="addPurchase">Add Points</button>
+          </div>
+          <p class="muted">Rounded down: $171 = 17 points.</p>
+
+          <h3>Rewards</h3>
+          <div id="rewards"></div>
+
+          <h3>Birthday Gift</h3>
+          <div id="birthdayStatus"></div>
+          <button id="claimBirthday" class="secondary">Mark Gift Claimed</button>
+        </div>
+
+        <div class="qrWrap">
+          <h3>Customer QR</h3>
+          <canvas id="qrCanvas"></canvas>
+          <p class="muted">Unique rewards customer ID.</p>
+        </div>
+      </div>
+
+      <h3>History</h3>
+      <div id="history"></div>
+    </section>
+
+    <section class="card">
+      <h2>Upcoming Birthdays</h2>
+      <p class="muted">Customers with birthdays in the next 14 days.</p>
+      <div id="birthdays"></div>
+    </section>
+  </div>
+</main>
+
+<footer>Wireless Zone Rewards</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

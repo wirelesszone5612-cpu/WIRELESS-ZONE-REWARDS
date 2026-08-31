@@ -45,10 +45,16 @@ function renderJoinPage(){
 if(stats) stats.style.display = "none";
   
 
-  Array.from($("app").children).forEach(el => {
-    el.hidden = true;
-  });
+function renderJoinPage(){
+  $("loginCard").hidden = true;
+  $("app").hidden = false;
+  $("authArea").innerHTML = "";
 
+  const stats = $("app").querySelector(".stats");
+  if(stats) stats.style.display = "none";
+
+  $("joinCard").hidden = false;
+} 
   $("joinCard").hidden = false;
 }
 $("joinRewardsBtn").addEventListener("click", async () => {

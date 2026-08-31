@@ -253,13 +253,11 @@ if(!c.birthday){
   $("birthdayStatus").innerHTML =
     `<p><span class="badge">Birthday gift available this month 🎉</span></p>`;
   $("claimBirthday").disabled = false;
-
 } else {
   $("birthdayStatus").innerHTML =
     `<p class="muted">Birthday gift available during birthday month.</p>`;
   $("claimBirthday").disabled = true;
-}
-  
+} 
   const customerUrl = `${window.location.origin}${window.location.pathname}?customer=${c.id}`;
 
 QRCode.toCanvas($("qrCanvas"), customerUrl, { width:220, margin:1 }, err => {

@@ -41,6 +41,9 @@ function renderJoinPage(){
   $("loginCard").hidden = true;
   $("app").hidden = false;
   $("authArea").innerHTML = "";
+  const stats = $("app").querySelector(".stats");
+if(stats) stats.style.display = "none";
+  
 
   Array.from($("app").children).forEach(el => {
     el.hidden = true;

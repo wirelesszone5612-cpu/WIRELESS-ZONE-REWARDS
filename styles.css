@@ -43,3 +43,6 @@ footer{text-align:center;color:var(--muted);padding:6px 0 30px;font-size:13px}
   .sectionHead>input{max-width:none}
   header{align-items:flex-start;flex-direction:column}
 }
+[hidden] {
+  display: none !important;
+}

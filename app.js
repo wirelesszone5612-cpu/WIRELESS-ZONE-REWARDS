@@ -50,7 +50,8 @@ function renderJoinPage(){
 }
   
 
-$("joinRewardsBtn").addEventListener("click", async () => {
+document.addEventListener("click", async (e) => {
+  if(!e.target.closest("#joinRewardsBtn")) return;
   const name = $("joinName").value.trim();
   const phone = $("joinPhone").value.replace(/\D/g, "");
   const birthday = $("joinBirthday").value;

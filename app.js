@@ -338,6 +338,37 @@ document.addEventListener("click", async (e) => {
   await loadCustomers();
   await openCustomer(selectedCustomer.id);
 });
+document.addEventListener("click", async (e) => {
+  if(!e.target.closest("#editCustomerBtn")) return;
+  if(!selectedCustomer) return;
+
+  const newName = prompt("Customer name:", selectedCustomer.name || "");
+  if(newName === null) return;
+
+  const newPhone = prompt("Phone number:", selectedCustomer.phone || "");
+  if(newPhone === null) return;
+
+  const newBirthday = prompt("Birthday (YYYY-MM-DD):", selectedCustomer.birthday || "");
+  if(newBirthday === null) return;
+
+  const { error } = await sb
+    .from("customers")
+    .update({
+      name: newName.trim(),
+      phone: newPhone.replace(/\D/g, ""),
+      birthday: newBirthday
+    })
+    .eq("id", selectedCustomer.id);
+
+  if(error){
+    return alert(error.message);
+  }
+
+  await loadCustomers();
+  await openCustomer(selectedCustomer.id);
+
+  alert("Customer updated.");
+});
 
 window.redeem = async (points, value) => {
   if(!selectedCustomer || selectedCustomer.points < points) return;

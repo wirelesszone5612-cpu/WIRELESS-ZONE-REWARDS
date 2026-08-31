@@ -15,7 +15,14 @@ const esc = (s="") => String(s).replace(/[&<>"']/g, m => ({
 }[m]));
 
 async function init(){
-  const customerId = new URLSearchParams(window.location.search).get("customer");
+  const params = new URLSearchParams(window.location.search);
+  const joinMode = params.get("join");
+  const customerId = params.get("customer");
+
+  if(joinMode === "1"){
+    renderJoinPage();
+    return;
+  }
 
   if(customerId){
     await renderCustomerCard(customerId);
@@ -24,8 +31,57 @@ async function init(){
 
   const { data: { session } } = await sb.auth.getSession();
   renderAuth(session);
-  sb.auth.onAuthStateChange((_event, nextSession) => renderAuth(nextSession));
-}  
+
+  sb.auth.onAuthStateChange((_event, nextSession) => {
+    renderAuth(nextSession);
+  });
+}
+
+function renderJoinPage(){
+  $("loginCard").hidden = true;
+  $("app").hidden = false;
+  $("authArea").innerHTML = "";
+
+  Array.from($("app").children).forEach(el => {
+    el.hidden = true;
+  });
+
+  $("joinCard").hidden = false;
+}
+$("joinRewardsBtn").addEventListener("click", async () => {
+  const name = $("joinName").value.trim();
+  const phone = $("joinPhone").value.replace(/\D/g, "");
+  const birthday = $("joinBirthday").value;
+
+  if(!name || !phone || !birthday){
+    $("joinMsg").textContent = "Please complete all fields.";
+    return;
+  }
+
+  $("joinMsg").textContent = "Creating your rewards account...";
+
+  const { data, error } = await sb.rpc("join_rewards", {
+    customer_name: name,
+    customer_phone: phone,
+    customer_birthday: birthday
+  });
+
+  if(error){
+    console.error(error);
+    $("joinMsg").textContent = "Unable to sign up. Please ask a store associate.";
+    return;
+  }
+
+  const customer = Array.isArray(data) ? data[0] : data;
+
+  if(!customer?.id){
+    $("joinMsg").textContent = "Unable to create rewards account.";
+    return;
+  }
+
+  window.location.href =
+    `${window.location.pathname}?customer=${customer.id}`;
+}); 
 async function renderCustomerCard(customerId){
   $("loginCard").hidden = true;
   $("app").hidden = false;

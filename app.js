@@ -232,15 +232,33 @@ async function renderDetail(){
   }).join("");
 
   const year = new Date().getFullYear();
-  if(!c.birthday){
-    $("birthdayStatus").innerHTML = `<p class="muted">No birthday saved.</p>`;
-    $("claimBirthday").disabled = true;
-  } else if(c.birthday_gift_year === year){
-    $("birthdayStatus").innerHTML = `<p><span class="badge">Gift claimed ${year}</span></p>`;
-    $("claimBirthday").disabled = true;
-  } else {
-    $("birthdayStatus").innerHTML = `<p><span class="badge">Birthday gift available for ${year}</span></p>`;
-    $("claimBirthday").disabled = false;
+ const now = new Date();
+const year = now.getFullYear();
+const currentMonth = now.getMonth() + 1;
+const birthdayMonth = c.birthday
+  ? Number(String(c.birthday).split("-")[1])
+  : null;
+
+if(!c.birthday){
+  $("birthdayStatus").innerHTML =
+    `<p class="muted">No birthday saved.</p>`;
+  $("claimBirthday").disabled = true;
+
+} else if(c.birthday_gift_year === year){
+  $("birthdayStatus").innerHTML =
+    `<p><span class="badge">Gift claimed ${year}</span></p>`;
+  $("claimBirthday").disabled = true;
+
+} else if(birthdayMonth === currentMonth){
+  $("birthdayStatus").innerHTML =
+    `<p><span class="badge">Birthday gift available this month 🎉</span></p>`;
+  $("claimBirthday").disabled = false;
+
+} else {
+  $("birthdayStatus").innerHTML =
+    `<p class="muted">Birthday gift available during birthday month.</p>`;
+  $("claimBirthday").disabled = true;
+}
   }
 
   const customerUrl = `${window.location.origin}${window.location.pathname}?customer=${c.id}`;

@@ -50,8 +50,7 @@ function renderJoinPage(){
 }
   
 
-document.addEventListener("click", async (e) => {
-  if(!e.target.closest("#joinRewardsBtn")) return;
+window.joinRewards = async function(){
   const name = $("joinName").value.trim();
   const phone = $("joinPhone").value.replace(/\D/g, "");
   const birthday = $("joinBirthday").value;
@@ -84,7 +83,7 @@ document.addEventListener("click", async (e) => {
 
   window.location.href =
     `${window.location.pathname}?customer=${customer.id}`;
-}); 
+};
 async function renderCustomerCard(customerId){
   $("loginCard").hidden = true;
   $("app").hidden = false;

@@ -338,8 +338,8 @@ document.addEventListener("click", async (e) => {
   await loadCustomers();
   await openCustomer(selectedCustomer.id);
 });
-document.addEventListener("click", async (e) => {
-  if(!e.target.closest("#editCustomerBtn")) return;
+window.editCustomer = async function(){
+  if(!selectedCustomer) return;
   if(!selectedCustomer) return;
 
   const newName = prompt("Customer name:", selectedCustomer.name || "");
@@ -368,7 +368,7 @@ document.addEventListener("click", async (e) => {
   await openCustomer(selectedCustomer.id);
 
   alert("Customer updated.");
-});
+};
 
 window.redeem = async (points, value) => {
   if(!selectedCustomer || selectedCustomer.points < points) return;

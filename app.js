@@ -121,7 +121,7 @@ async function renderCustomerCard(customerId){
 
   QRCode.toCanvas(
     $("customerCardQr"),
-    customer.id,
+   `${window.location.origin}${window.location.pathname}?customer=${customer.id}`,
     { width: 180, margin: 1 },
     err => {
       if(err) console.error(err);

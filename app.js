@@ -378,11 +378,9 @@ window.deleteCustomer = async function(){
 
   if(!ok) return;
 
-  const { error } = await sb
-    .from("customers")
-    .delete()
-    .eq("id", selectedCustomer.id);
-
+  const { error } = await sb.rpc("delete_customer", {
+  p_customer_id: selectedCustomer.id
+});
   if(error){
     return alert(error.message);
   }

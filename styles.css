@@ -46,3 +46,9 @@ footer{text-align:center;color:var(--muted);padding:6px 0 30px;font-size:13px}
 [hidden] {
   display: none !important;
 }
+.customerLogo{
+  display:block;
+  width:220px;
+  max-width:90%;
+  margin:0 auto 18px;
+}

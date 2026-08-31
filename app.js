@@ -301,6 +301,43 @@ $("addPurchase").onclick = async () => {
   $("purchaseAmount").value = "";
   await refreshSelected();
 };
+document.addEventListener("click", async (e) => {
+  if(!e.target.closest("#removePurchase")) return;
+  if(!selectedCustomer) return;
+
+  const amount = parseFloat($("purchaseAmount").value);
+
+  if(!amount || amount <= 0){
+    return alert("Enter a valid return amount.");
+  }
+
+  const points = Math.floor(amount / 10);
+
+  if(points <= 0){
+    return alert("Return amount must be at least $10.");
+  }
+
+  const ok = confirm(
+    `Remove ${points} points for a $${amount.toFixed(2)} return?`
+  );
+
+  if(!ok) return;
+
+  const { error } = await sb.rpc("remove_purchase_points", {
+    customer_id: selectedCustomer.id,
+    amount: amount,
+    points_to_remove: points
+  });
+
+  if(error){
+    return alert(error.message);
+  }
+
+  $("purchaseAmount").value = "";
+
+  await loadCustomers();
+  await openCustomer(selectedCustomer.id);
+});
 
 window.redeem = async (points, value) => {
   if(!selectedCustomer || selectedCustomer.points < points) return;

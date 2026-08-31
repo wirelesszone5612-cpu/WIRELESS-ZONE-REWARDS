@@ -369,7 +369,31 @@ window.editCustomer = async function(){
 
   alert("Customer updated.");
 };
+window.deleteCustomer = async function(){
+  if(!selectedCustomer) return;
 
+  const ok = confirm(
+    `Delete ${selectedCustomer.name}? This cannot be undone.`
+  );
+
+  if(!ok) return;
+
+  const { error } = await sb
+    .from("customers")
+    .delete()
+    .eq("id", selectedCustomer.id);
+
+  if(error){
+    return alert(error.message);
+  }
+
+  selectedCustomer = null;
+  $("detailCard").hidden = true;
+
+  await loadCustomers();
+
+  alert("Customer deleted.");
+};
 window.redeem = async (points, value) => {
   if(!selectedCustomer || selectedCustomer.points < points) return;
   if(!confirm(`Redeem ${points} points for a $${value} reward?`)) return;

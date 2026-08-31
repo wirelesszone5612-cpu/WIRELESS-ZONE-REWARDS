@@ -48,7 +48,9 @@ footer{text-align:center;color:var(--muted);padding:6px 0 30px;font-size:13px}
 }
 .customerLogo{
   display:block;
-  width:220px;
-  max-width:90%;
-  margin:0 auto 18px;
+  width:140px;
+  max-width:70%;
+  height:auto;
+  margin:0 auto 14px;
+  object-fit:contain;
 }

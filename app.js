@@ -341,15 +341,23 @@ function safeBirthdayDate(year, month, day){
 }
 
 function renderBirthdays(){
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const end = new Date(today);
-  end.setDate(end.getDate() + 14);
+const now = new Date();
+const currentMonth = now.getMonth();
 
-  const upcoming = allCustomers
-    .map(c => ({ c, next: nextBirthday(c.birthday) }))
-    .filter(x => x.next && x.next >= today && x.next <= end)
-    .sort((a,b) => a.next - b.next);
+const upcoming = allCustomers
+  .filter(c => c.birthday)
+  .map(c => {
+    const parts = String(c.birthday).split("-");
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
+
+    return {
+      c,
+      next: safeBirthdayDate(now.getFullYear(), month, day)
+    };
+  })
+  .filter(x => x.next.getMonth() === currentMonth)
+  .sort((a, b) => a.next - b.next);
 
   $("birthdayCount").textContent = upcoming.length;
   $("birthdays").innerHTML = upcoming.length ? upcoming.map(x => `

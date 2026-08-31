@@ -121,7 +121,7 @@ async function renderCustomerCard(customerId){
 
   QRCode.toCanvas(
     $("customerCardQr"),
-   `${window.location.origin}${window.location.pathname}?customer=${customer.id}`,
+   `https://wirelesszone5612-cpu.github.io/WIRELESS-ZONE-REWARDS/?customer=${customer.id}`,
     { width: 180, margin: 1 },
     err => {
       if(err) console.error(err);
@@ -261,7 +261,7 @@ if(!c.birthday){
 }
   }
 
-  const customerUrl = `${window.location.origin}${window.location.pathname}?customer=${c.id}`;
+const customerUrl = `https://wirelesszone5612-cpu.github.io/WIRELESS-ZONE-REWARDS/?customer=${c.id}`;
 
 QRCode.toCanvas($("qrCanvas"), customerUrl, { width:220, margin:1 }, err => {
     if(err) console.error(err);

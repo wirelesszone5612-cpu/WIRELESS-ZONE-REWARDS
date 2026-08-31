@@ -231,7 +231,7 @@ async function renderDetail(){
     `;
   }).join("");
 
-  const year = new Date().getFullYear();
+
  const now = new Date();
 const year = now.getFullYear();
 const currentMonth = now.getMonth() + 1;
